@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MK</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="login_txt">Login</string>
+    <string name="register">register</string>
+</resources>

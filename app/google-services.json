@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1014584131988",
+    "project_id": "mkapp-db2016",
+    "storage_bucket": "mkapp-db2016.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014584131988:android:3eefb619470a9f7620cf81",
+        "android_client_info": {
+          "package_name": "com.maryamkhadijah.mk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbHauTCXLB-y2MDQHRF1V-p-6tZHUHb-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
