@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".register">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,7 +50,8 @@
             android:layout_marginEnd="24dp"
             android:backgroundTint="#C81994 "
             android:text="@string/login_txt"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/btnRegister"
