@@ -1,8 +1,5 @@
 package com.maryamkhadijah.mk;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,10 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.ui.AppBarConfiguration;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.maryamkhadijah.mk.databinding.ActivityNavGraphBinding;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSignin, btnSignup;
     private FirebaseAuth mAuth;
     private EditText editTextEmail, editTextPassword;
+
+    private ActivityNavGraphBinding binding;
+    private AppBarConfiguration appBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editEmailLogin);
         editTextPassword = findViewById(R.id.editPasswordLogin);
         btnSignup = findViewById(R.id.btnRegister);
+
+
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
                                 //success
                                 String user_id = mAuth.getCurrentUser().getEmail();
                                 Toast.makeText(MainActivity.this, user_id, Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(MainActivity.this, Homepage.class));
+                                startActivity(new Intent(MainActivity.this, nav_graph.class));
                                 finish();
                             }else {
                                 //fail
-                                Toast.makeText(MainActivity.this, "There is some error", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Email or password must be correct", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -75,5 +82,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
+
+
     }
+
 }

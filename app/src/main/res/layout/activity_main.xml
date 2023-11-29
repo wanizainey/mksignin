@@ -21,24 +21,26 @@
             android:textColor="@color/black"
             android:textSize="36sp"
             android:textStyle="bold" />
+
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/editEmailLogin"
+            android:layout_width="374dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="24dp"
             android:hint="@string/enter_your_email"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="24dp"
-            android:inputType="textEmailAddress"
-            android:id="@+id/editEmailLogin"/>
+            android:inputType="textEmailAddress" />
+
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/enter_your_password"
+            android:id="@+id/editPasswordLogin"
+            android:layout_width="380dp"
+            android:layout_height="58dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="24dp"
-            android:inputType="textPassword"
-            android:id="@+id/editPasswordLogin"/>
+            android:hint="@string/enter_your_password"
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/btnLogin"

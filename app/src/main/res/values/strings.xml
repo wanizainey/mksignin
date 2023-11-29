@@ -8,4 +8,75 @@
     <string name="password">password</string>
     <string name="email">email</string>
     <string name="full_name">fullname</string>
+
+    <string name="title_activity_nav_graph">nav_graph</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_settings">Settings</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- HomeFragment Titles -->
+    <string name="homeTitle">Home Page</string>
+    <string name="tvGreet">Welcome to MyMK </string>
+    <string name="btnClock">Clock In</string>
+    <string name="btnClock2">Clock Out</string>
+    <string name="btndashboard1">Profile</string>
+    <string name="btnhome">Home</string>
+
+
+    <!-- SettingFragment Titles -->
+    <string name="CompanyD">Company Detail</string>
+    <string name="ChangePassword">Change Password</string>
+    <string name="SignOut">Sign Out</string>
+
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <!-- Company detail   -->
+    <string name="btnlegal">Legal Information</string>
+    <string name="cname">Maryam Khadijah Group Sdn. Bhd.</string>
+    <string name="Cemail">Email</string>
+    <string name="Cemail1">staff.maryamkhadijah@gmail.com</string>
+    <string name="Cphone">Phone Number</string>
+    <string name="Cphone1">0193833653</string>
+    <string name="Cstreet">Street Address</string>
+    <string name="Cstreet1">No. 28, Tingkat 1, Lorong Perda Selatan 2, Bendar Perda</string>
+    <string name="Cpost">PostCode</string>
+    <string name="Cpost1">14000</string>
+    <string name="Cstate">State</string>
+    <string name="Cstate1">Pulau Pinang</string>
+    <string name="CLogoDesc">Maryam khadijah logo</string>
+
+
+    <!-- Legal Info -->
+    <string name="linfo">Legal Information</string>
+    <string name="Cregister">Company Registration Number</string>
+    <string name="Cnum">PG0388497-T</string>
+    <string name="Epnum">EPF Number</string>
+    <string name="Enum">021478571</string>
+    <string name="Socnum">Socso Number</string>
+    <string name="Socnum1">C5202059739X</string>
+    <string name="LhdnC">LHDN Employer Number</string>
+    <string name="Lhdnnum">B 3638839</string>
+    <string name="Lhdnb">LHDN Branch</string>
+    <string name="Lhdnb1">Cawangan Bukit Mertajam</string>
+    <string name="Zakatnum">Zakat Number</string>
+    <string name="Zakatnum1">PG0388497T</string>
+
+
+    <string name="title_activity_legal_info">LegalInfo</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
