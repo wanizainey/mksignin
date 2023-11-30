@@ -32,6 +32,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+
+import java.io.IOException;
+import java.util.List;
+
+
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
@@ -110,7 +118,7 @@ public class HomeFragment extends Fragment {
         fusedLocationClient.removeLocationUpdates(locationCallback);
     }
 
-    private void saveClockData(Location location) {
+  /*  private void saveClockData(Location location) {
         String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
         String clockType = isClockIn ? "ClockIn" : "ClockOut";
@@ -123,6 +131,32 @@ public class HomeFragment extends Fragment {
         Toast.makeText(requireActivity(), message + " recorded at " + currentTime, Toast.LENGTH_SHORT).show();
 
         txtLocation.setText(String.format("Location: %.6f, %.6f", location.getLatitude(), location.getLongitude()));
+    } */
+
+    private void saveClockData(Location location) {
+        String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
+        // Geocode the location to get the address
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if (addresses != null && addresses.size() > 0) {
+                Address address = addresses.get(0);
+                String addressString = address.getAddressLine(0); // You can concatenate more address lines if needed
+
+                // Create a ClockData object with the address
+                ClockData clockData = new ClockData(currentTime, location.getLatitude(), location.getLongitude(), addressString);
+                String clockType = isClockIn ? "ClockIn" : "ClockOut";
+                String key = databaseReference.child(clockType).push().getKey();
+                databaseReference.child(clockType).child(key).setValue(clockData);
+
+                // Update the UI
+                txtLocation.setText("Location: " + addressString);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception
+        }
     }
 
     @Override

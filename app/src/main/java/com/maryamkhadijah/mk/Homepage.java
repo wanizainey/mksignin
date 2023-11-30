@@ -30,7 +30,7 @@ import java.util.Locale;
 
 public class Homepage extends AppCompatActivity {
 
-    private Button btnClockIn, btnClockOut;
+  /*  private Button btnClockIn, btnClockOut;
     private TextView txtLocation;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
@@ -98,7 +98,6 @@ public class Homepage extends AppCompatActivity {
     private void stopLocationUpdates() {
         fusedLocationClient.removeLocationUpdates(locationCallback);
     }
-
     private void saveClockData(Location location) {
         String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
@@ -112,5 +111,5 @@ public class Homepage extends AppCompatActivity {
         Toast.makeText(this, message + " recorded at " + currentTime, Toast.LENGTH_SHORT).show();
 
         txtLocation.setText(String.format("Location: %.6f, %.6f", location.getLatitude(), location.getLongitude()));
-    }
+    } */
 }
