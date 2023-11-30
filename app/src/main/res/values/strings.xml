@@ -8,6 +8,7 @@
     <string name="password">password</string>
     <string name="email">email</string>
     <string name="full_name">fullname</string>
+    <string name="loading_s">loadingscreen</string>
 
     <string name="title_activity_nav_graph">nav_graph</string>
     <string name="title_home">Home</string>
