@@ -8,27 +8,28 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="363dp"
-        android:layout_height="410dp"
+        android:layout_width="370dp"
+        android:layout_height="417dp"
         android:contentDescription="@string/loading_s"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.454"
+        app:layout_constraintVertical_bias="0.264"
         app:srcCompat="@drawable/logo_combine_mk_01" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="352dp"
+        android:layout_height="26dp"
         android:max="100"
         android:progress="0"
-        android:layout_width="279dp"
-        android:layout_height="17dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.581" />
+        app:layout_constraintVertical_bias="0.665" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
