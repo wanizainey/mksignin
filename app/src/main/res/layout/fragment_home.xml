@@ -8,8 +8,8 @@
 
     <Button
         android:id="@+id/btnClock2"
-        android:layout_width="147dp"
-        android:layout_height="67dp"
+        android:layout_width="153dp"
+        android:layout_height="68dp"
         android:backgroundTint="#C81994"
         android:text="@string/btnClock2"
         android:textColor="@android:color/black"
@@ -19,6 +19,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.403" />
+
+    <Button
+        android:id="@+id/btnClock"
+        android:layout_width="153dp"
+        android:layout_height="68dp"
+        android:backgroundTint="#C81994"
+        android:text="@string/btnClock"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.241" />
 
     <TextView
         android:id="@+id/homeTitle"
@@ -48,28 +63,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.091" />
 
-    <Button
-        android:id="@+id/btnClock"
-        android:layout_width="135dp"
-        android:layout_height="60dp"
-        android:backgroundTint="#C81994"
-        android:text="@string/btnClock"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.241" />
 
     <TextView
         android:id="@+id/txtLocation"
-        android:layout_width="142dp"
-        android:layout_height="52dp"
+        android:layout_width="219dp"
+        android:layout_height="58dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Location: "
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnClock2" />
