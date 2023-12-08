@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.maryamkhadijah.mk.R;
+import com.maryamkhadijah.mk.applyleave;
 import com.maryamkhadijah.mk.databinding.FragmentDashboardBinding;
 import com.maryamkhadijah.mk.edit_profile;
 
@@ -39,7 +41,13 @@ public class DashboardFragment extends Fragment {
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         // Initialize the button correctly
-        Button btnedit = root.findViewById(R.id.editprofileEmp);
+        Button btnedit;
+        ImageButton btnClaim;
+
+
+                btnedit = root.findViewById(R.id.editprofileEmp);
+                btnClaim = root.findViewById(R.id.btnClaim);
+
 
         // Handle click on the userImage
         ImageView userImage = root.findViewById(R.id.userImage);
@@ -64,8 +72,39 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+        btnClaim.setOnClickListener(new View.OnClickListener() {
+         @Override
+            public void onClick(View view) {
+             Toast.makeText(getActivity(), "Apply Cuti ke tu", Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent(getActivity(), applyleave.class);
+            // i.putExtra("Value1", "DFP50283");
+            // i.putExtra("Value2", "MAD");
+
+             startActivity(i);
+        }
+    });
+
+
+
+
+
+
+
         return root;
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     private void selectImage() {
         // Create an intent to open the image picker

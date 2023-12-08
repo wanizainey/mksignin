@@ -28,6 +28,12 @@
         android:theme="@style/Theme.MK"
         tools:targetApi="31">
         <activity
+            android:name=".leaveform"
+            android:exported="false" />
+        <activity
+            android:name=".applyleave"
+            android:exported="false" />
+        <activity
             android:name=".edit_profile"
             android:exported="false" />
         <activity
