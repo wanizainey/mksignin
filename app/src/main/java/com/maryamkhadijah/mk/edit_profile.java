@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -94,6 +96,8 @@ public class edit_profile extends AppCompatActivity {
         // Update the data in Firebase
         mDatabase.setValue(updatedEmployee);
 
-        // You can add a success message or navigate to another activity here
+        // Display a success message
+        Toast.makeText(edit_profile.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+
     }
 }

@@ -1,6 +1,4 @@
 package com.maryamkhadijah.mk.ui.dashboard;
-
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,19 +12,27 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
+import com.google.firebase.database.DatabaseReference;
+import com.maryamkhadijah.mk.Employee;
 import com.maryamkhadijah.mk.R;
 import com.maryamkhadijah.mk.applyleave;
 import com.maryamkhadijah.mk.databinding.FragmentDashboardBinding;
 import com.maryamkhadijah.mk.edit_profile;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
+
+    private DatabaseReference mDatabase;
 
     // Request code for image picker
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -35,7 +41,12 @@ public class DashboardFragment extends Fragment {
         DashboardViewModel dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        final View root = binding.getRoot();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference("employees").child(currentUser.getUid());
+
+        // Call the loadProfileData method
+        loadProfileData(root, currentUser);
 
         final TextView textView = binding.textDashboard;
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
@@ -89,16 +100,39 @@ public class DashboardFragment extends Fragment {
         return root;
     }
 
+    private void loadProfileData(View root, FirebaseUser currentUser) {
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Employee employee = dataSnapshot.getValue(Employee.class);
+                    if (employee != null) {
+                        // Update UI with user profile data
+                        TextView idEmpTextView = root.findViewById(R.id.idEmp);
+                        TextView emailEmpTextView = root.findViewById(R.id.emailEmp);
+                        TextView userEmpTextView = root.findViewById(R.id.userEmp);
 
+                        idEmpTextView.setText("ID Employee: " + currentUser.getUid());
+                        emailEmpTextView.setText("Email: " + currentUser.getEmail());
+                        userEmpTextView.setText("Name: " + employee.getName());
 
+                        // Update the profile image if available
+                        ImageView userImageView = root.findViewById(R.id.userImage);
+                        if (employee.getImageUrl() != null && !employee.getImageUrl().isEmpty()) {
+                            // Load the image using your preferred image loading library or method
+                            // Example using Glide:
+                            // Glide.with(getActivity()).load(employee.getImageUrl()).into(userImageView);
+                        }
+                    }
+                }
+            }
 
-
-
-
-
-
-
-
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle errors
+            }
+        });
+    }
 
 
     private void selectImage() {
