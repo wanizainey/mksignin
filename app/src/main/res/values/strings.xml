@@ -60,6 +60,10 @@
     <string name="Cstate1">Pulau Pinang</string>
     <string name="CLogoDesc">Maryam khadijah logo</string>
 
+    <!--Apply leave section -->
+    <string name="Applybtn">Apply Leave</string>
+    <string name="Applyinfo">Status Permohonan</string>
+
 
     <!-- Legal Info -->
     <string name="linfo">Legal Information</string>

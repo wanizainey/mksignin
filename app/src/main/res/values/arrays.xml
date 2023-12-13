@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="leave_types_array">
+        <item>Annual Leave</item>
+        <item>Medical</item>
+        <item>Death</item>
+        <item>Emergency</item>
+        <item>Unpaid</item>
+
+        <!-- Add more leave types as needed -->
+    </string-array>
+</resources>
