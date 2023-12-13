@@ -51,6 +51,8 @@ public class HomeFragment extends Fragment {
     private FirebaseUser currentUser;
     private DatabaseReference databaseReference;
     private boolean isClockIn = false;
+    private boolean isClockButtonEnabled = true; // Added variable to track button state
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -72,16 +74,26 @@ public class HomeFragment extends Fragment {
         btnClock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isClockIn = true;
-                requestLocationUpdates();
+                if (isClockButtonEnabled) {
+                    isClockIn = true;
+                    isClockButtonEnabled = false; // Disable the button
+                    requestLocationUpdates();
+                }else {
+                    Toast.makeText(requireActivity(), "You have already clocked in. Clock out first.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         btnClock2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isClockIn = false;
-                requestLocationUpdates();
+                if (!isClockButtonEnabled) {
+                    isClockIn = false;
+                    isClockButtonEnabled = true; // Re-enable the button after clocking out
+                    requestLocationUpdates();
+                }else {
+                    Toast.makeText(requireActivity(), "You need to clock in first.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -118,20 +130,6 @@ public class HomeFragment extends Fragment {
         fusedLocationClient.removeLocationUpdates(locationCallback);
     }
 
-  /*  private void saveClockData(Location location) {
-        String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-
-        String clockType = isClockIn ? "ClockIn" : "ClockOut";
-        String key = databaseReference.child(clockType).push().getKey();
-
-        ClockData clockData = new ClockData(currentTime, location.getLatitude(), location.getLongitude());
-        databaseReference.child(clockType).child(key).setValue(clockData);
-
-        String message = isClockIn ? "Clock-in" : "Clock-out";
-        Toast.makeText(requireActivity(), message + " recorded at " + currentTime, Toast.LENGTH_SHORT).show();
-
-        txtLocation.setText(String.format("Location: %.6f, %.6f", location.getLatitude(), location.getLongitude()));
-    } */
 
     private void saveClockData(Location location) {
         String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
