@@ -9,12 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -27,15 +25,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.maryamkhadijah.mk.ClockData;
 import com.maryamkhadijah.mk.R;
 import com.maryamkhadijah.mk.databinding.FragmentHomeBinding;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -52,7 +47,6 @@ public class HomeFragment extends Fragment {
     private DatabaseReference databaseReference;
     private boolean isClockIn = false;
     private boolean isClockButtonEnabled = true; // Added variable to track button state
-
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -149,7 +143,7 @@ public class HomeFragment extends Fragment {
                 databaseReference.child(clockType).child(key).setValue(clockData);
 
                 // Update the UI
-                txtLocation.setText("Location: " + addressString);
+                txtLocation.setText("Location: " + addressString + "\nTime: " + currentTime);
             }
         } catch (IOException e) {
             e.printStackTrace();

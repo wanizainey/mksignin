@@ -31,9 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
-
     private DatabaseReference mDatabase;
-
     // Request code for image picker
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -89,8 +87,6 @@ public class DashboardFragment extends Fragment {
              Toast.makeText(getActivity(), "Apply Cuti ke tu", Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(getActivity(), applyleave.class);
-            // i.putExtra("Value1", "DFP50283");
-            // i.putExtra("Value2", "MAD");
 
              startActivity(i);
         }
