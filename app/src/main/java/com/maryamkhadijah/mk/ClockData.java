@@ -6,15 +6,17 @@ public class ClockData {
     private double longitude;
 
     private String address; // New field for the address
+    private String clockType;  // new field for clock type
 
     // Default constructor required for Firebase
     public ClockData() {}
 
-    public ClockData(String time, double latitude, double longitude, String address) {
+    public ClockData(String time, double latitude, double longitude, String address, String clockType) {
         this.time = time;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
+        this.clockType = clockType;
     }
 
     public String getTime() {
@@ -31,5 +33,9 @@ public class ClockData {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getClockType() {
+        return clockType;
     }
 }

@@ -33,6 +33,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import java.io.IOException;
 import java.util.List;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 
 public class HomeFragment extends Fragment {
@@ -82,14 +84,42 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!isClockButtonEnabled) {
-                    isClockIn = false;
-                    isClockButtonEnabled = true; // Re-enable the button after clocking out
-                    requestLocationUpdates();
+                  //  isClockIn = false;
+                  //  isClockButtonEnabled = true; // Re-enable the button after clocking out
+                  //  requestLocationUpdates();
+
+                    // Show a confirmation dialog
+                    showClockOutConfirmationDialog();
                 }else {
                     Toast.makeText(requireActivity(), "You need to clock in first.", Toast.LENGTH_SHORT).show();
                 }
             }
+
+            private void showClockOutConfirmationDialog() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setTitle("Clock Out Confirmation");
+                builder.setMessage("Are you sure you want to clock out?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // User clicked Yes, proceed with clocking out
+                        isClockIn = false;
+                        isClockButtonEnabled = true;
+                        requestLocationUpdates();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // User clicked No, dismiss the dialog
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+
+            }
         });
+
 
         return root;
     }
@@ -136,14 +166,17 @@ public class HomeFragment extends Fragment {
                 Address address = addresses.get(0);
                 String addressString = address.getAddressLine(0); // You can concatenate more address lines if needed
 
-                // Create a ClockData object with the address
-                ClockData clockData = new ClockData(currentTime, location.getLatitude(), location.getLongitude(), addressString);
+                // Create a ClockData object with the address, time, and clock type
                 String clockType = isClockIn ? "ClockIn" : "ClockOut";
                 String key = databaseReference.child(clockType).push().getKey();
+
+                // Include the clock type in the ClockData object
+                ClockData clockData = new ClockData(currentTime, location.getLatitude(), location.getLongitude(), addressString, clockType);
                 databaseReference.child(clockType).child(key).setValue(clockData);
 
                 // Update the UI
-                txtLocation.setText("Location: " + addressString + "\nTime: " + currentTime);
+                String clockMessage = isClockIn ? "Clock in at " : "Clock out at ";
+                txtLocation.setText(clockMessage + addressString + "\nTime: " + currentTime);
             }
         } catch (IOException e) {
             e.printStackTrace();
