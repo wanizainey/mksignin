@@ -1,37 +1,38 @@
 package com.maryamkhadijah.mk;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.Manifest;
-
-
-
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 public class Applyleaveform extends AppCompatActivity {
 
     private Spinner leavetype;
-    private TextView textStartDate, textEndDate, textTotalDays;
+    private TextView textStartDate, textEndDate, textTotalDays, textUploadFile, txtLeaveReason;
     private CheckBox checkMorningLeave, checkEveningLeave;
+    private DatabaseReference leaveDatabase;
+
     private Calendar calendar;
 
     @Override
@@ -45,42 +46,63 @@ public class Applyleaveform extends AppCompatActivity {
         textTotalDays = findViewById(R.id.textTotalDays);
         checkMorningLeave = findViewById(R.id.checkMorningLeave);
         checkEveningLeave = findViewById(R.id.checkEveningLeave);
+        textUploadFile = findViewById(R.id.textUploadFile);
+        txtLeaveReason = findViewById(R.id.TxtLeavereason);
 
         calendar = Calendar.getInstance();
+        leaveDatabase = FirebaseDatabase.getInstance().getReference("leaveApplications");
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.leave_types_array,
                 android.R.layout.simple_spinner_item
         );
-
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         leavetype.setAdapter(adapter);
 
-        // Set OnClickListeners for the date TextViews
         textStartDate.setOnClickListener(v -> showDatePickerDialog(textStartDate));
         textEndDate.setOnClickListener(v -> showDatePickerDialog(textEndDate));
 
-        // Set OnCheckedChangeListener for the checkboxes
-        setCheckboxListeners(checkMorningLeave, checkEveningLeave);
+        checkMorningLeave.setOnCheckedChangeListener((buttonView, isChecked) -> updateTotalDays());
+        checkEveningLeave.setOnCheckedChangeListener((buttonView, isChecked) -> updateTotalDays());
+
+        textUploadFile.setOnClickListener(v -> showUploadOptions());
+
+        Button btnSubmitLeave = findViewById(R.id.btnSubmitLeave);
+        btnSubmitLeave.setOnClickListener(v -> saveLeaveApplicationData());
+
+        // Allow unticking of Morning Leave
+        checkMorningLeave.setOnClickListener(v -> {
+            if (checkMorningLeave.isChecked()) {
+                checkEveningLeave.setChecked(false);
+                updateTotalDays();
+            } else {
+                // Allow unticking
+                updateTotalDays();
+            }
+        });
+
+        checkEveningLeave.setOnClickListener(v -> {
+            if (checkEveningLeave.isChecked()) {
+                checkMorningLeave.setChecked(false);
+                updateTotalDays();
+            } else {
+                // Allow unticking
+                updateTotalDays();
+            }
+        });
     }
 
-    // Show a DatePickerDialog for the selected TextView
-    private void showDatePickerDialog(TextView textView) {
+    private void showDatePickerDialog(final TextView textView) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 (view, year, month, dayOfMonth) -> {
                     calendar.set(Calendar.YEAR, year);
                     calendar.set(Calendar.MONTH, month);
                     calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                    String selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                    String selectedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(calendar.getTime());
                     textView.setText(selectedDate);
-
-                    // Check if both start and end dates are set before updating total days
-                    if (!textStartDate.getText().toString().isEmpty() && !textEndDate.getText().toString().isEmpty()) {
-                        updateTotalDays();
-                    }
+                    updateTotalDays();
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -90,34 +112,27 @@ public class Applyleaveform extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    // Set listeners for the checkboxes to enforce mutual exclusivity
-    private void setCheckboxListeners(CheckBox checkBox1, CheckBox checkBox2) {
-        checkBox1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                checkBox2.setChecked(false);
-                updateTotalDays();
-            }
-        });
-
-        checkBox2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                checkBox1.setChecked(false);
-                updateTotalDays();
-            }
-        });
-    }
-
-    // Update the total days TextView based on the selected start and end dates, and checkboxes
-    private void updateTotalDays() { SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private void updateTotalDays() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
         try {
             Date startDate = sdf.parse(textStartDate.getText().toString());
             Date endDate = sdf.parse(textEndDate.getText().toString());
 
             long diffInMillis = endDate.getTime() - startDate.getTime();
-            long diffInDays = diffInMillis / (24 * 60 * 60 * 1000);
+            double diffInDays = diffInMillis / (24.0 * 60.0 * 60.0 * 1000.0) + 1; // Use double for decimal values
 
-            // Check if Morning Leave or Evening Leave is selected
+            // Check if both Morning Leave and Evening Leave are selected
+         /*   if (checkMorningLeave.isChecked() && checkEveningLeave.isChecked()) {
+                // Untick Morning Leave if both are selected
+                checkMorningLeave.setChecked(false);
+            } */
+
+            if (!checkMorningLeave.isChecked() && !checkEveningLeave.isChecked()) {
+                checkMorningLeave.setChecked(false);
+                checkEveningLeave.setChecked(false);
+            }
+                // Check if either Morning Leave or Evening Leave is selected
             if (checkMorningLeave.isChecked() || checkEveningLeave.isChecked()) {
                 diffInDays -= 0.5;
             }
@@ -133,139 +148,49 @@ public class Applyleaveform extends AppCompatActivity {
         }
     }
 
-    public void showUploadOptions(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Upload Options");
-
-        String[] options = {"Take Photo", "Choose from Library", "Remove Current Picture", "Cancel"};
-
-        builder.setItems(options, (dialog, which) -> {
-            // Handle the selected option
-            switch (which) {
-                case 0:
-                    // Take Photo
-                    // Implement the logic to use the device camera
-                    takePhoto();
-                    break;
-                case 1:
-                    // Choose from Library
-                    // Implement the logic to use the device gallery
-                    chooseFromLibrary();
-                    break;
-                case 2:
-                    // Remove Current Picture
-                    // Implement the logic to remove the selected or taken picture
-                    removeCurrentPicture();
-                    break;
-                case 3:
-                    // Cancel
-                    // Do nothing or handle cancellation logic
-                    cancelCurrentDialog();
-                    break;
-            }
-        });
-
-        builder.show();
+    private void showUploadOptions() {
+        // Your logic to handle upload options
+        // ...
     }
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    // Method to handle taking a photo using the device camera
-    private void takePhoto() {
-        // Check if the app has the CAMERA permission
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // Request CAMERA permission if not granted
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE);
-            return;
-        }
+    private void saveLeaveApplicationData() {
+        String selectedLeaveType = leavetype.getSelectedItem().toString();
+        String startDate = textStartDate.getText().toString();
+        String endDate = textEndDate.getText().toString();
+        String leaveReason = txtLeaveReason.getText().toString();
+        boolean morningLeave = checkMorningLeave.isChecked();
+        boolean eveningLeave = checkEveningLeave.isChecked();
 
-        // Check if the device has any camera feature
-        if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            // Create an intent to open the camera app
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Construct a LeaveApplication object with the obtained data
+        LeaveApplication leaveApplication = new LeaveApplication(
+                selectedLeaveType,
+                startDate,
+                endDate,
+                leaveReason,
+                checkMorningLeave.isChecked(),
+                checkEveningLeave.isChecked()
+        );
 
-            // Ensure there's a camera activity to handle the intent
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                // Start the camera intent
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            }
-        } else {
-            // Handle the case where the device doesn't have a camera feature
-            // You might want to display a message to the user or take alternative actions
-            Toast.makeText(this, "No camera feature available on this device", Toast.LENGTH_SHORT).show();
+        // Get the current user
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            // Convert the LeaveApplication object to a Map
+            Map<String, Object> leaveMap = leaveApplication.toMap();
+
+            // Save the leave application data to the database under the user's UID
+            leaveDatabase.child(currentUser.getUid()).push().updateChildren(leaveMap)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Data was successfully saved
+                            Toast.makeText(Applyleaveform.this, "Leave application submitted", Toast.LENGTH_SHORT).show();
+                            finish(); // Optionally close the activity after submission
+                        } else {
+                            // Handle the error
+                            Toast.makeText(Applyleaveform.this, "Error submitting leave application", Toast.LENGTH_SHORT).show();
+                            // Log the error for debugging
+                            task.getException().printStackTrace();
+                        }
+                    });
         }
     }
-// ...
-
-    // Override onActivityResult to handle the result of the camera intent
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            // The photo was successfully taken
-            // You can access the photo from the 'data' Intent or use a file path if you specified it in the camera intent
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-            // Now you can do something with the captured image, such as display it in an ImageView
-            // imageView.setImageBitmap(imageBitmap);
-        }
-    }
-
-   //Add this constant at the class level
-    private static final int REQUEST_PICK_IMAGE = 2;
-
-    // Method to handle choosing from the device gallery
-    private void chooseFromLibrary() {
-        // Check if the app has the READ_EXTERNAL_STORAGE permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            // Request READ_EXTERNAL_STORAGE permission if not granted
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PICK_IMAGE);
-            return;
-        }
-
-        // Create an intent to open the gallery
-        Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        // Ensure there's a gallery activity to handle the intent
-        if (pickPhotoIntent.resolveActivity(getPackageManager()) != null) {
-            // Start the gallery intent
-            startActivityForResult(pickPhotoIntent, REQUEST_PICK_IMAGE);
-        }
-    }
-
-    // Assume this is your Bitmap variable
-    private Bitmap selectedImageBitmap;
-
-    // Method to handle removing the selected or taken picture
-    private void removeCurrentPicture() {
-        // Clear the Bitmap to remove the selected picture
-        selectedImageBitmap = null;
-
-        // Update your UI or do other necessary actions
-        // For example, if you're using an ImageView to display the Bitmap:
-        // yourImageView.setImageBitmap(null);
-    }
-
-
-
-    private void cancelCurrentDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Cancel Upload");
-
-        // Create and show the dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-
-
-
-
-
-
-
-
-
-
 }

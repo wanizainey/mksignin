@@ -16,44 +16,18 @@ public class applyleave extends AppCompatActivity {
         setContentView(R.layout.applyleave);
 
         Button btnapplyleave;
-        //  EditText editTextTextPersonName;
 
         btnapplyleave = findViewById(R.id.btnapplyleave);
-
-
-
-
-
         btnapplyleave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(applyleave.this, "Legal Info", Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(getApplicationContext(), Applyleaveform.class );
-                // i.putExtra("Value1", "DFP50283");
-                // i.putExtra("Value2", "MAD");
 
                 startActivity(i);
             }
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }
