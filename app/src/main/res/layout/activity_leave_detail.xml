@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textEmployeeName"
+        android:layout_width="379dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="8dp"
+        android:text="Employee Name"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textLeaveDates"
+        android:layout_width="383dp"
+        android:layout_height="36dp"
+        android:layout_below="@id/textEmployeeName"
+        android:layout_marginBottom="8dp"
+        android:text="Leave Dates"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textEndDate"
+        android:layout_width="382dp"
+        android:layout_height="33dp"
+        android:layout_below="@id/textLeaveDates"
+        android:layout_marginBottom="8dp"
+        android:text="End Date"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textLeaveReason"
+        android:layout_width="378dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/textEndDate"
+        android:layout_marginBottom="16dp"
+        android:text="Leave Reason"
+        android:textSize="16sp" />
+
+    <!-- Add more details as needed -->
+
+    <Button
+        android:id="@+id/buttonApprove"
+        android:layout_width="191dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textLeaveReason"
+        android:layout_marginTop="16dp"
+        android:onClick="onApproveClick"
+        android:text="Approve" />
+
+    <Button
+        android:id="@+id/buttonDecline"
+        android:layout_width="195dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textLeaveReason"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@id/buttonApprove"
+        android:onClick="onDeclineClick"
+        android:text="Decline" />
+
+</RelativeLayout>
