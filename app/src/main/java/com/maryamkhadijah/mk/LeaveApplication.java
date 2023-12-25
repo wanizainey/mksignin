@@ -11,6 +11,8 @@ public class LeaveApplication {
     private boolean morningLeave;
     private boolean eveningLeave;
 
+    private boolean isApproved; // Added field
+
     public LeaveApplication() {
         // Default constructor required for Firebase
     }
@@ -59,6 +61,14 @@ public class LeaveApplication {
         result.put("eveningLeave", eveningLeave);
 
         return result;
+    }
+
+    public boolean isApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(boolean approved) {
+        isApproved = approved;
     }
 
 }

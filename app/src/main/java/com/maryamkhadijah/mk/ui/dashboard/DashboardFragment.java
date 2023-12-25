@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 
 public class DashboardFragment extends Fragment {
 
@@ -74,9 +78,6 @@ public class DashboardFragment extends Fragment {
                 Toast.makeText(getActivity(), "Edit Profile Nohh", Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(getActivity(), edit_profile.class);
-                // i.putExtra("Value1", "DFP50283");
-                // i.putExtra("Value2", "MAD");
-
                 startActivity(i);
             }
         });
@@ -91,7 +92,6 @@ public class DashboardFragment extends Fragment {
              startActivity(i);
         }
     });
-
 
         return root;
     }
@@ -112,12 +112,20 @@ public class DashboardFragment extends Fragment {
                         emailEmpTextView.setText("Email: " + currentUser.getEmail());
                         userEmpTextView.setText("Name: " + employee.getName());
 
-                        // Update the profile image if available
                         ImageView userImageView = root.findViewById(R.id.userImage);
+
+                        // Check if imageUrl is not null or empty
                         if (employee.getImageUrl() != null && !employee.getImageUrl().isEmpty()) {
-                            // Load the image using your preferred image loading library or method
-                            // Example using Glide:
-                            // Glide.with(getActivity()).load(employee.getImageUrl()).into(userImageView);
+
+                            Log.d("ImageURL", "URL: " + employee.getImageUrl());
+                            // Load the image using Glide
+                            Glide.with(requireContext())
+                                    .load(employee.getImageUrl())
+                                    .placeholder(R.drawable.placeholder_image)
+                                    .into(userImageView);
+                        } else {
+                            // Set a default image or handle the case where imageUrl is empty
+                            userImageView.setImageResource(R.drawable.placeholder_image);
                         }
                     }
                 }
@@ -157,7 +165,10 @@ public class DashboardFragment extends Fragment {
             // You can use the selected image URI as needed (e.g., load it into an ImageView)
             // For example, if you have an ImageView with the id R.id.userImage:
             ImageView userImageView = getView().findViewById(R.id.userImage);
-            userImageView.setImageURI(selectedImageUri);
+            Glide.with(requireContext())
+                    .load(selectedImageUri)
+                    .placeholder(R.drawable.placeholder_image)
+                    .into(userImageView);
         }
     }
 

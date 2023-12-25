@@ -11,14 +11,11 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -150,7 +147,6 @@ public class Applyleaveform extends AppCompatActivity {
 
     private void showUploadOptions() {
         // Your logic to handle upload options
-        // ...
     }
 
     private void saveLeaveApplicationData() {
@@ -183,7 +179,8 @@ public class Applyleaveform extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Data was successfully saved
                             Toast.makeText(Applyleaveform.this, "Leave application submitted", Toast.LENGTH_SHORT).show();
-                            finish(); // Optionally close the activity after submission
+                            finish();
+                            // Optionally close the activity after submission
                         } else {
                             // Handle the error
                             Toast.makeText(Applyleaveform.this, "Error submitting leave application", Toast.LENGTH_SHORT).show();
