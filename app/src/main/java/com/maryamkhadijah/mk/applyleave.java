@@ -92,6 +92,7 @@ public class applyleave extends AppCompatActivity {
                                 // Handle the case where 'approved' is null or not a Boolean (if needed)
                             }
                             leaveStatusList.add(leaveStatus);
+
                         } else if (leaveDataObject instanceof String) {
                             // Handle the case where the data is a String (if needed)
                         }

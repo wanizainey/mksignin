@@ -10,7 +10,6 @@ public class LeaveApplication {
     private String leaveReason;
     private boolean morningLeave;
     private boolean eveningLeave;
-
     private boolean isApproved; // Added field
 
     public LeaveApplication() {
