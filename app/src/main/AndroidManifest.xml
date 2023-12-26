@@ -29,9 +29,14 @@
         android:theme="@style/Theme.MK"
         tools:targetApi="31">
         <activity
+            android:name=".Leaveformlist"
+            android:exported="false" />
+        <activity
+            android:name=".LeaveDetail"
+            android:exported="false" />
+        <activity
             android:name=".Applyleaveform"
             android:exported="false" />
-
         <activity
             android:name=".applyleave"
             android:exported="false" />
