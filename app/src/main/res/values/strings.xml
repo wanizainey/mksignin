@@ -80,6 +80,9 @@
     <string name="Zakatnum">Zakat Number</string>
     <string name="Zakatnum1">PG0388497T</string>
 
+    <!--Admin home -->
+    <string name="Cutiapp">Approval Cuti</string>
+
 
     <string name="title_activity_legal_info">LegalInfo</string>
 

@@ -6,4 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".AdminActivity">
 
+    <ImageButton
+        android:id="@+id/adminlistbtn"
+        android:layout_width="182dp"
+        android:layout_height="142dp"
+        android:contentDescription="@string/Cutiapp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.806"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.352"
+        app:srcCompat="@drawable/calendar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
