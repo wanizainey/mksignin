@@ -120,6 +120,7 @@ public class Applyleaveform extends AppCompatActivity {
             double diffInDays = diffInMillis / (24.0 * 60.0 * 60.0 * 1000.0) + 1; // Use double for decimal values
 
             // Check if both Morning Leave and Evening Leave are selected
+
          /*   if (checkMorningLeave.isChecked() && checkEveningLeave.isChecked()) {
                 // Untick Morning Leave if both are selected
                 checkMorningLeave.setChecked(false);
@@ -157,6 +158,9 @@ public class Applyleaveform extends AppCompatActivity {
         boolean morningLeave = checkMorningLeave.isChecked();
         boolean eveningLeave = checkEveningLeave.isChecked();
 
+        // Set the leave application status directly to "Pending"
+        String leaveStatus = "Pending";
+
         // Construct a LeaveApplication object with the obtained data
         LeaveApplication leaveApplication = new LeaveApplication(
                 selectedLeaveType,
@@ -164,7 +168,8 @@ public class Applyleaveform extends AppCompatActivity {
                 endDate,
                 leaveReason,
                 checkMorningLeave.isChecked(),
-                checkEveningLeave.isChecked()
+                checkEveningLeave.isChecked(),
+                leaveStatus
         );
 
         // Get the current user
@@ -191,3 +196,4 @@ public class Applyleaveform extends AppCompatActivity {
         }
     }
 }
+

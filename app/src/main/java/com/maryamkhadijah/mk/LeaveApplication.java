@@ -11,18 +11,20 @@ public class LeaveApplication {
     private boolean morningLeave;
     private boolean eveningLeave;
     private boolean isApproved; // Added field
+    private String leaveStatus; // Added field
 
     public LeaveApplication() {
         // Default constructor required for Firebase
     }
 
-    public LeaveApplication(String leaveType, String startDate, String endDate, String leaveReason, boolean morningLeave, boolean eveningLeave) {
+    public LeaveApplication(String leaveType, String startDate, String endDate, String leaveReason, boolean morningLeave, boolean eveningLeave, String leaveStatus) {
         this.leaveType = leaveType;
         this.startDate = startDate;
         this.endDate = endDate;
         this.leaveReason = leaveReason;
         this.morningLeave = morningLeave;
         this.eveningLeave = eveningLeave;
+        this.leaveStatus = leaveStatus;
     }
 
     // Getter methods
@@ -58,6 +60,7 @@ public class LeaveApplication {
         result.put("leaveReason", leaveReason);
         result.put("morningLeave", morningLeave);
         result.put("eveningLeave", eveningLeave);
+        result.put("leaveStatus", leaveStatus);
 
         return result;
     }
@@ -69,5 +72,4 @@ public class LeaveApplication {
     public void setApproved(boolean approved) {
         isApproved = approved;
     }
-
 }

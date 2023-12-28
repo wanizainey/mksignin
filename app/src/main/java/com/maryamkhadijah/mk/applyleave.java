@@ -83,24 +83,30 @@ public class applyleave extends AppCompatActivity {
                                     "\nStart Date: " + leaveData.get("startDate") +
                                     "\nEnd Date: " + leaveData.get("endDate");
 
-                            // Check if the 'approved' field is not null before comparing
-                            Object approvedValue = leaveData.get("approved");
+                            // Check if the 'isApproved' field is not null before comparing
+                            Object approvedValue = leaveData.get("isApproved");
                             if (approvedValue != null && approvedValue instanceof Boolean) {
-                                // If 'approved' is not null and of type Boolean, append its status to leaveStatus
                                 leaveStatus += "\nStatus: " + ((Boolean) approvedValue ? "Approved" : "Pending");
                             } else {
-                                // Handle the case where 'approved' is null or not a Boolean (if needed)
+                                // Handle the case where 'isApproved' is null or not a Boolean (if needed)
+                                leaveStatus += "\nStatus: Pending"; // Assuming Pending by default
                             }
+
                             leaveStatusList.add(leaveStatus);
 
                         } else if (leaveDataObject instanceof String) {
                             // Handle the case where the data is a String (if needed)
                         }
                     }
+
                     // Display the leave applications in a ListView
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(applyleave.this, android.R.layout.simple_list_item_1, leaveStatusList);
                     listLeaveStatus.setAdapter(adapter);
+
+                    // Notify the adapter that the data set has changed
+                    adapter.notifyDataSetChanged();
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     // Handle errors
